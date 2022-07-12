@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"strconv"
 
@@ -52,6 +53,10 @@ type ResponseEventDetail struct {
 type ResponseCekTicket struct {
 	Status  string           `json:"status"`
 	Message models.CekTicket `json:"message"`
+}
+
+func AmbilPesanPembuka(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("API YEAH")
 }
 
 // @Summary ambil konfigurasi aplikasi

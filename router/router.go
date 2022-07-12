@@ -14,6 +14,7 @@ func Router() *mux.Router {
 
 	router := mux.NewRouter()
 
+	router.HandleFunc("/", controller.AmbilPesanPembuka).Methods("GET", "OPTIONS")
 	//Data
 	router.HandleFunc("/api/v2/data/konfigurasiaplikasi", controller.AmbilKonfigurasiAplikasi).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/v2/data/jeniskelamin", controller.AmbilJenisKelamin).Methods("GET", "OPTIONS")
