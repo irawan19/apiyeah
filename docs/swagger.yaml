@@ -1,0 +1,148 @@
+basePath: /api/v2
+host: localhost:8080
+info:
+  contact: {}
+  description: API for YEAH Apps
+  title: API Yeah
+  version: "2.0"
+paths:
+  /data/jeniskelamin:
+    get:
+      consumes:
+      - application/json
+      description: ambil jenis kelamin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ambil jenis kelamin
+      tags:
+      - Data
+  /data/konfigurasiaplikasi:
+    get:
+      consumes:
+      - application/json
+      description: ambil konfigurasi aplikasi
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ambil konfigurasi aplikasi
+      tags:
+      - Data
+  /data/pembayaran:
+    get:
+      consumes:
+      - application/json
+      description: ambil pembayaran
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ambil pembayaran
+      tags:
+      - Data
+  /data/statuspembayaran:
+    get:
+      consumes:
+      - application/json
+      description: ambil status pembayaran
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ambil status pembayaran
+      tags:
+      - Data
+  /event:
+    get:
+      consumes:
+      - application/json
+      description: ambil semua event
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ambil semua event
+      tags:
+      - Event
+  /event/cekticket/{bookingcode}:
+    post:
+      consumes:
+      - application/json
+      description: cek ticket
+      parameters:
+      - description: booking code
+        in: query
+        name: booking_code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: cek ticket
+      tags:
+      - Event
+  /event/detail/{id}:
+    get:
+      consumes:
+      - application/json
+      description: ambil detail event
+      parameters:
+      - description: id event
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ambil detail event
+      tags:
+      - Event
+  /event/registrasi:
+    post:
+      consumes:
+      - application/json
+      description: registrasi
+      parameters:
+      - description: registrasi
+        in: body
+        name: registrasi
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: registrasi
+      tags:
+      - Event
+swagger: "2.0"

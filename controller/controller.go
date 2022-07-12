@@ -54,6 +54,14 @@ type ResponseCekTicket struct {
 	Message models.CekTicket `json:"message"`
 }
 
+// @Summary ambil konfigurasi aplikasi
+// @Schemes
+// @Description ambil konfigurasi aplikasi
+// @Tags Data
+// @Accept json
+// @Produce json
+// @Success 200 {string} AmbilKonfigurasiAplikasi
+// @Router /data/konfigurasiaplikasi [get]
 func AmbilKonfigurasiAplikasi(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -70,6 +78,14 @@ func AmbilKonfigurasiAplikasi(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// @Summary ambil jenis kelamin
+// @Schemes
+// @Description ambil jenis kelamin
+// @Tags Data
+// @Accept json
+// @Produce json
+// @Success 200 {string} AmbilJenisKelamin
+// @Router /data/jeniskelamin [get]
 func AmbilJenisKelamin(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -86,6 +102,14 @@ func AmbilJenisKelamin(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// @Summary ambil pembayaran
+// @Schemes
+// @Description ambil pembayaran
+// @Tags Data
+// @Accept json
+// @Produce json
+// @Success 200 {string} AmbilPembayaran
+// @Router /data/pembayaran [get]
 func AmbilPembayaran(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -102,6 +126,14 @@ func AmbilPembayaran(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// @Summary ambil status pembayaran
+// @Schemes
+// @Description ambil status pembayaran
+// @Tags Data
+// @Accept json
+// @Produce json
+// @Success 200 {string} AmbilStatusPembayaran
+// @Router /data/statuspembayaran [get]
 func AmbilStatusPembayaran(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -118,6 +150,14 @@ func AmbilStatusPembayaran(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// @Summary ambil semua event
+// @Schemes
+// @Description ambil semua event
+// @Tags Event
+// @Accept json
+// @Produce json
+// @Success 200 {string} AmbilSemuaEvent
+// @Router /event [get]
 func AmbilSemuaEvent(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -134,6 +174,15 @@ func AmbilSemuaEvent(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// @Summary ambil detail event
+// @Schemes
+// @Description ambil detail event
+// @Tags Event
+// @Accept json
+// @Produce json
+// @Param id path string true "id event"
+// @Success 200 {string} AmbilDetailEvent
+// @Router /event/detail/{id} [get]
 func AmbilDetailEvent(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -159,6 +208,15 @@ func AmbilDetailEvent(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// @Summary cek ticket
+// @Schemes
+// @Description cek ticket
+// @Tags Event
+// @Accept json
+// @Produce json
+// @Param booking_code query string true "booking code"
+// @Success 200 {string} AmbilDetailEvent
+// @Router /event/cekticket/{bookingcode} [post]
 func CekTicket(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -177,6 +235,15 @@ func CekTicket(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// @Summary registrasi
+// @Schemes
+// @Description registrasi
+// @Tags Event
+// @Accept json
+// @Produce json
+// @Param registrasi body object true "registrasi"
+// @Success 200 {string} AmbilDetailEvent
+// @Router /event/registrasi [post]
 func Registrasi(w http.ResponseWriter, r *http.Request) {
 	var regjson models.RegistrasiEventJson
 
@@ -219,5 +286,4 @@ func Registrasi(w http.ResponseWriter, r *http.Request) {
 		Message: "Data registrasi telah ditambahkan ",
 	}
 	json.NewEncoder(w).Encode(res)
-
 }
