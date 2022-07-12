@@ -11,7 +11,7 @@ import (
 // @version 2.0
 // @description API for YEAH Apps
 
-// @host https://api.yeah.biz.id
+// @host api.yeah.biz.id
 // @BasePath /api/v2
 func main() {
 	r := router.Router()

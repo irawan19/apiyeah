@@ -1,5 +1,5 @@
 basePath: /api/v2
-host: https://api.yeah.biz.id
+host: api.yeah.biz.id
 info:
   contact: {}
   description: API for YEAH Apps
