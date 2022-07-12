@@ -45,6 +45,7 @@ type Event struct {
 	Lokasi_events             string          `json:"lokasi_events"`
 	Mulai_registrasi_events   string          `json:"mulai_registrasi_events"`
 	Selesai_registrasi_events string          `json:"selesai_registrasi_events"`
+	Start_from_ticket_events  int64           `json:"start_form_ticket_events"`
 	Tickets                   json.RawMessage `json:"tickets_data"`
 }
 
@@ -286,6 +287,13 @@ func AmbilSemuaEvent() ([]Event, error) {
 						lokasi_events,
 						mulai_registrasi_events,
 						selesai_registrasi_events,
+						(
+							SELECT harga_tickets
+							FROM master_tickets ts
+							WHERE ts.events_id=e.id_events
+							ORDER BY harga_tickets ASC
+							LIMIT 1
+						) AS start_from_ticket_events,
 						json_agg(t.*) AS tickets_data
 					FROM master_events e
 					JOIN master_tickets t ON t.events_id=e.id_events
@@ -314,6 +322,7 @@ func AmbilSemuaEvent() ([]Event, error) {
 			&event.Lokasi_events,
 			&event.Mulai_registrasi_events,
 			&event.Selesai_registrasi_events,
+			&event.Start_from_ticket_events,
 			&event.Tickets,
 		)
 
