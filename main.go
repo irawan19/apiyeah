@@ -15,8 +15,6 @@ import (
 // @BasePath /api/v2
 func main() {
 	r := router.Router()
-	// // fs := http.FileServer(http.Dir("build"))
-	// // http.Handle("/", fs)
 
 	fmt.Println("Server dijalankan pada port 8080...")
 
