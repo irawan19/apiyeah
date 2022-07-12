@@ -14,7 +14,7 @@ func Router() *mux.Router {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/", controller.AmbilPesanPembuka).Methods("GET", "OPTIONS")
+	router.PathPrefix("/").Handler(httpSwagger.WrapHandler)
 	//Data
 	router.HandleFunc("/api/v2/data/konfigurasiaplikasi", controller.AmbilKonfigurasiAplikasi).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/v2/data/jeniskelamin", controller.AmbilJenisKelamin).Methods("GET", "OPTIONS")
@@ -26,7 +26,6 @@ func Router() *mux.Router {
 	router.HandleFunc("/api/v2/event/detail/{id}", controller.AmbilDetailEvent).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/v2/event/cekticket/{bookingcode}", controller.CekTicket).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/v2/event/registrasi", controller.Registrasi).Methods("POST", "OPTIONS")
-	router.PathPrefix("/documentation/").Handler(httpSwagger.WrapHandler)
 
 	return router
 }
