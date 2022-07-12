@@ -3,6 +3,7 @@ package main
 import (
 	"apiyeah/router"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -17,5 +18,5 @@ func main() {
 
 	fmt.Println("Server dijalankan pada port 8080...")
 
-	http.ListenAndServe(":8080", nil)
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
