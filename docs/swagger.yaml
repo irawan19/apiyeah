@@ -81,7 +81,7 @@ paths:
       summary: ambil semua event
       tags:
       - Event
-  /event/cekticket/{bookingcode}:
+  /event/cekticket/:
     post:
       consumes:
       - application/json
@@ -109,7 +109,7 @@ paths:
       description: ambil detail event
       parameters:
       - description: id event
-        in: path
+        in: query
         name: id
         required: true
         type: string

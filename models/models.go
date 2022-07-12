@@ -82,6 +82,7 @@ type EventDetail struct {
 	Mulai_registrasi_events   string          `json:"mulai_registrasi_events"`
 	Selesai_registrasi_events string          `json:"selesai_registrasi_events"`
 	Tickets                   json.RawMessage `json:"tickets_data"`
+	Promos                    json.RawMessage `json:"promos_data`
 }
 
 type RegistrasiEventJson struct {
@@ -342,7 +343,14 @@ func AmbilSatuEvent(id int64) (EventDetail, error) {
 							lokasi_events,
 							mulai_registrasi_events,
 							selesai_registrasi_events,
-							json_agg(t.*) as tickets_data
+							json_agg(t.*) as tickets_data,
+							(
+								SELECT
+									json_agg(p.*)
+								FROM master_promos p
+								WHERE p.events_id=e.id_events
+								OR p.events_id=0
+							) as promos_data
 						FROM master_events e
 						JOIN master_tickets t ON t.events_id=e.id_events
 						WHERE e.status_hapus_events=false
@@ -361,6 +369,7 @@ func AmbilSatuEvent(id int64) (EventDetail, error) {
 		&eventDetail.Mulai_registrasi_events,
 		&eventDetail.Selesai_registrasi_events,
 		&eventDetail.Tickets,
+		&eventDetail.Promos,
 	)
 
 	switch err {

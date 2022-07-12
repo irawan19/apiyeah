@@ -180,7 +180,7 @@ func AmbilSemuaEvent(w http.ResponseWriter, r *http.Request) {
 // @Tags Event
 // @Accept json
 // @Produce json
-// @Param id path string true "id event"
+// @Param id query string true "id event"
 // @Success 200 {string} AmbilDetailEvent
 // @Router /event/detail/{id} [get]
 func AmbilDetailEvent(w http.ResponseWriter, r *http.Request) {
@@ -216,7 +216,7 @@ func AmbilDetailEvent(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param booking_code query string true "booking code"
 // @Success 200 {string} AmbilDetailEvent
-// @Router /event/cekticket/{bookingcode} [post]
+// @Router /event/cekticket/ [post]
 func CekTicket(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")

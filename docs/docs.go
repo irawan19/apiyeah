@@ -131,7 +131,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/event/cekticket/{bookingcode}": {
+        "/event/cekticket/": {
             "post": {
                 "description": "cek ticket",
                 "consumes": [
@@ -181,7 +181,7 @@ const docTemplate = `{
                         "type": "string",
                         "description": "id event",
                         "name": "id",
-                        "in": "path",
+                        "in": "query",
                         "required": true
                     }
                 ],

@@ -124,7 +124,7 @@
                 }
             }
         },
-        "/event/cekticket/{bookingcode}": {
+        "/event/cekticket/": {
             "post": {
                 "description": "cek ticket",
                 "consumes": [
@@ -174,7 +174,7 @@
                         "type": "string",
                         "description": "id event",
                         "name": "id",
-                        "in": "path",
+                        "in": "query",
                         "required": true
                     }
                 ],
