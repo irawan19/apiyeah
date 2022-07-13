@@ -2,6 +2,7 @@ package router
 
 import (
 	"apiyeah/controller"
+	"net/http"
 
 	"github.com/gorilla/mux"
 
@@ -26,6 +27,7 @@ func Router() *mux.Router {
 	router.HandleFunc("/api/v2/event/cekticket/{bookingcode}", controller.CekTicket).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/v2/event/registrasi", controller.Registrasi).Methods("POST", "OPTIONS")
 	router.PathPrefix("/").Handler(httpSwagger.WrapHandler)
+	http.Handle("/", router)
 
 	return router
 }
