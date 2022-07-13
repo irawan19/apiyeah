@@ -548,7 +548,7 @@ func KalkulasiKuotaTicket(id int64, kalkulasiticket KalkulasiTicketData) int64 {
 	db := config.CreateConnection()
 	defer db.Close()
 
-	sqlStatement := `UPDATE master_tickets SET sisa_kuota_tickets=$2 WHERE id_tickets=$1`
+	sqlStatement := `UPDATE master_tickets SET sisa_kuota_tickets=sisa_kuota_tickets-$2 WHERE id_tickets=$1`
 
 	res, err := db.Exec(sqlStatement, id, kalkulasiticket.Jumlah_registrasi)
 	if err != nil {
