@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 )
 
 const ()
@@ -17,8 +18,14 @@ const ()
 // @BasePath /api/v2
 func main() {
 	r := router.Router()
+	srv := &http.Server{
+		Handler:      r,
+		Addr:         "127.0.0.1:9100",
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
 
-	fmt.Println("Server dijalankan pada port 8082...")
+	fmt.Println("Server dijalankan pada port 9100...")
 
-	log.Fatal(http.ListenAndServe(":8082", r))
+	log.Fatal(srv.ListenAndServe())
 }
