@@ -20,7 +20,7 @@ func main() {
 	r := router.Router()
 	srv := &http.Server{
 		Handler:      r,
-		Addr:         "127.0.0.1:9100",
+		Addr:         "0.0.0.0:9100",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
