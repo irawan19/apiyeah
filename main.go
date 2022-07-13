@@ -18,7 +18,7 @@ const ()
 func main() {
 	r := router.Router()
 
-	fmt.Println("Server dijalankan pada port 8080...")
+	fmt.Println("Server dijalankan pada port 8082...")
 
 	log.Fatal(http.ListenAndServe(":8082", r))
 }
