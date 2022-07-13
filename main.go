@@ -7,6 +7,8 @@ import (
 	"net/http"
 )
 
+const ()
+
 // @title API Yeah
 // @version 2.0
 // @description API for YEAH Apps
@@ -18,5 +20,5 @@ func main() {
 
 	fmt.Println("Server dijalankan pada port 8080...")
 
-	log.Fatal(http.ListenAndServe("0.0.0.0:8080", r))
+	log.Fatal(http.ListenAndServe(":8082", r))
 }
