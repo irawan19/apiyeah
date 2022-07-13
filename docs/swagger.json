@@ -6,7 +6,7 @@
         "contact": {},
         "version": "2.0"
     },
-    "host": "api.yeah.biz.id",
+    "host": "localhost:8080",
     "basePath": "/api/v2",
     "paths": {
         "/data/jeniskelamin": {
