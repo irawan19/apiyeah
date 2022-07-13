@@ -281,6 +281,11 @@ func Registrasi(w http.ResponseWriter, r *http.Request) {
 		models.TambahDataRegistrasiEventDetail(IdRegistrasiEvent, regdatadetail)
 	}
 
+	ticketdata := models.KalkulasiTicketData{
+		Jumlah_registrasi: regjson.Jumlah_registrasi_events,
+	}
+	models.KalkulasiKuotaTicket(regjson.Tickets_id, ticketdata)
+
 	res := response{
 		Status:  "Sukses",
 		Message: "Data registrasi telah ditambahkan ",

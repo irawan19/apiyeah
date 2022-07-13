@@ -116,6 +116,9 @@ type RegistrasiEventDetail struct {
 	Telepon_registrasi       string `json:"telepon_registrasi"`
 	Tanggal_lahir_registrasi string `json:"tanggal_lahir_registrasi"`
 }
+type KalkulasiTicketData struct {
+	Jumlah_registrasi int64 `json:"jumlah_registrasi"`
+}
 
 func AmbilSatuKonfigurasiAplikasi() (KonfigurasiAplikasi, error) {
 	db := config.CreateConnection()
@@ -539,4 +542,25 @@ func TambahDataRegistrasiEventDetail(id int64, registrasieventdetail RegistrasiE
 	fmt.Printf("Insert data single record %v", idregistrasieventdetail)
 
 	return idregistrasieventdetail
+}
+
+func KalkulasiKuotaTicket(id int64, kalkulasiticket KalkulasiTicketData) int64 {
+	db := config.CreateConnection()
+	defer db.Close()
+
+	sqlStatement := `UPDATE master_tickets SET sisa_kuota_tickets=$2 WHERE id_tickets=$1`
+
+	res, err := db.Exec(sqlStatement, id, kalkulasiticket.Jumlah_registrasi)
+	if err != nil {
+		log.Fatalf("Tidak bisa mengeksekusi query. %v", err)
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		log.Fatalf("Error ketika mengecheck rows/data yang diupdate. %v", err)
+	}
+
+	fmt.Printf("Total rows/record yang diupdate %v\n", rowsAffected)
+
+	return rowsAffected
 }
