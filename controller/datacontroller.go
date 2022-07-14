@@ -181,6 +181,5 @@ func AmbilMetaTag(w http.ResponseWriter, r *http.Request) {
 	var response ResponseMetaTag
 	response.Status = "Sukses"
 	response.Message = MetaTag
-
 	json.NewEncoder(w).Encode(response)
 }

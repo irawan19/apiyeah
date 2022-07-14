@@ -251,7 +251,7 @@ func AmbilSemuaMetaTag() ([]MetaTag, error) {
 	sqlStatement := `SELECT
 						id_meta_tags,
 						nama_meta_tags,
-						coalesce(konten_meta_tags, '') AS konten_meta_tags
+						regexp_replace(coalesce(konten_meta_tags, ''), E'[\\n\\r]+', ' ', 'g' ) AS konten_meta_tags
 					FROM master_meta_tags`
 
 	rows, err := db.Query(sqlStatement)
