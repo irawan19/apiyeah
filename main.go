@@ -11,11 +11,11 @@ import (
 const ()
 
 // @title API Yeah
-// @version 2.0
+// @version 1.0
 // @description API for YEAH Apps
 
 // @host api.yeah.biz.id
-// @BasePath /api/v2
+// @BasePath /api/v1
 func main() {
 	r := router.Router()
 	srv := &http.Server{

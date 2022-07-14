@@ -1,10 +1,10 @@
-basePath: /api/v2
+basePath: /api/v1
 host: api.yeah.biz.id
 info:
   contact: {}
   description: API for YEAH Apps
   title: API Yeah
-  version: "2.0"
+  version: "1.0"
 paths:
   /data/jeniskelamin:
     get:
@@ -36,6 +36,21 @@ paths:
       summary: ambil konfigurasi aplikasi
       tags:
       - Data
+  /data/metatag:
+    get:
+      consumes:
+      - application/json
+      description: ambil meta tag
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ambil meta tag
+      tags:
+      - Data
   /data/pembayaran:
     get:
       consumes:
@@ -49,6 +64,21 @@ paths:
           schema:
             type: string
       summary: ambil pembayaran
+      tags:
+      - Data
+  /data/sosialmedia:
+    get:
+      consumes:
+      - application/json
+      description: ambil sosial media
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ambil sosial media
       tags:
       - Data
   /data/statuspembayaran:

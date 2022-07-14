@@ -62,6 +62,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/data/metatag": {
+            "get": {
+                "description": "ambil meta tag",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data"
+                ],
+                "summary": "ambil meta tag",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/data/pembayaran": {
             "get": {
                 "description": "ambil pembayaran",
@@ -75,6 +98,29 @@ const docTemplate = `{
                     "Data"
                 ],
                 "summary": "ambil pembayaran",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/sosialmedia": {
+            "get": {
+                "description": "ambil sosial media",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data"
+                ],
+                "summary": "ambil sosial media",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -234,9 +280,9 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "2.0",
+	Version:          "1.0",
 	Host:             "api.yeah.biz.id",
-	BasePath:         "/api/v2",
+	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "API Yeah",
 	Description:      "API for YEAH Apps",

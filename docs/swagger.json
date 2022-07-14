@@ -4,10 +4,10 @@
         "description": "API for YEAH Apps",
         "title": "API Yeah",
         "contact": {},
-        "version": "2.0"
+        "version": "1.0"
     },
     "host": "api.yeah.biz.id",
-    "basePath": "/api/v2",
+    "basePath": "/api/v1",
     "paths": {
         "/data/jeniskelamin": {
             "get": {
@@ -55,6 +55,29 @@
                 }
             }
         },
+        "/data/metatag": {
+            "get": {
+                "description": "ambil meta tag",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data"
+                ],
+                "summary": "ambil meta tag",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/data/pembayaran": {
             "get": {
                 "description": "ambil pembayaran",
@@ -68,6 +91,29 @@
                     "Data"
                 ],
                 "summary": "ambil pembayaran",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/sosialmedia": {
+            "get": {
+                "description": "ambil sosial media",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data"
+                ],
+                "summary": "ambil sosial media",
                 "responses": {
                     "200": {
                         "description": "OK",
