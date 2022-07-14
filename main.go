@@ -14,7 +14,7 @@ const ()
 // @version 1.0
 // @description API for YEAH Apps
 
-// @host api.yeah.biz.id
+// @host localhost:9100
 // @BasePath /api/v1
 func main() {
 	r := router.Router()

@@ -29,6 +29,24 @@ type Pembayaran struct {
 	Nama_pembayarans string `json:"nama_pembayarans"`
 }
 
+type StatusPembayaran struct {
+	Id_status_pembayarans   int64  `json:"id_status_pembayarans"`
+	Nama_status_pembayarans string `json:"nama_status_pembayarans"`
+}
+
+type SosialMedia struct {
+	Id_sosial_media   int64  `json:"id_sosial_medias"`
+	Nama_sosial_media string `json:"nama_sosial_medias"`
+	Icon_sosial_media string `json:"icon_sosial_medias"`
+	Url_sosial_media  string `json:"url_sosial_medias"`
+}
+
+type MetaTag struct {
+	Id_meta_tag     int64  `json:"id_meta_tags"`
+	Nama_meta_tag   string `json:"nama_meta_tags"`
+	Konten_meta_tag string `json:"konten_meta_tags"`
+}
+
 func AmbilSatuKonfigurasiAplikasi() (KonfigurasiAplikasi, error) {
 	db := config.CreateConnection()
 	defer db.Close()
@@ -233,7 +251,7 @@ func AmbilSemuaMetaTag() ([]MetaTag, error) {
 	sqlStatement := `SELECT
 						id_meta_tags,
 						nama_meta_tags,
-						konten_meta_tags
+						coalesce(konten_meta_tags, '') AS konten_meta_tags
 					FROM master_meta_tags`
 
 	rows, err := db.Query(sqlStatement)
@@ -260,22 +278,4 @@ func AmbilSemuaMetaTag() ([]MetaTag, error) {
 	}
 
 	return metatags, err
-}
-
-type StatusPembayaran struct {
-	Id_status_pembayarans   int64  `json:"id_status_pembayarans"`
-	Nama_status_pembayarans string `json:"nama_status_pembayarans"`
-}
-
-type SosialMedia struct {
-	Id_sosial_media   int64  `json:"id_sosial_medias"`
-	Nama_sosial_media string `json:"nama_sosial_medias"`
-	Icon_sosial_media string `json:"icon_sosial_medias"`
-	Url_sosial_media  string `json:"url_sosial_medias"`
-}
-
-type MetaTag struct {
-	Id_meta_tag     int64  `json:"id_meta_tags"`
-	Nama_meta_tag   string `json:"nama_meta_tags"`
-	Konten_meta_tag string `json:"konten_meta_tags"`
 }
