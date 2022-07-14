@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 
+	"apiyeah/helper"
 	"apiyeah/models"
 
 	"github.com/gorilla/mux"
@@ -147,7 +148,7 @@ func Registrasi(w http.ResponseWriter, r *http.Request) {
 		Status_pembayarans_id:              regjson.Status_pembayarans_id,
 		Jumlah_registrasi_events:           regjson.Jumlah_registrasi_events,
 		Bukti_pembayaran_registrasi_events: regjson.Bukti_pembayaran_registrasi_events,
-		No_registrasi_events:               regjson.No_registrasi_events,
+		No_registrasi_events:               helper.RandStringBytes(6),
 		Harga_registrasi_events:            regjson.Harga_registrasi_events,
 	}
 	IdRegistrasiEvent := models.TambahDataRegistrasiEvent(regdata)
