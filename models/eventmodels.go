@@ -387,3 +387,24 @@ func KalkulasiKuotaTicket(id int64, kalkulasiticket KalkulasiTicketData) int64 {
 
 	return rowsAffected
 }
+
+func UpdatePembayaran(Booking_code string, Id_pembayarans int64, Id_status_pembayarans int64) int64 {
+	db := config.CreateConnection()
+	defer db.Close()
+
+	sqlStatement := `UPDATE registrasi_events SET pembayarans_id=$2, status_pembayarans_id=$3 WHERE no_registrasi_events=$1`
+
+	res, err := db.Exec(sqlStatement, Booking_code, Id_pembayarans, Id_status_pembayarans)
+	if err != nil {
+		log.Fatalf("Tidak bisa mengeksekusi query. %v", err)
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		log.Fatalf("Error ketika mengecheck rows/data yang diupdate. %v", err)
+	}
+
+	fmt.Printf("Total rows/record yang diupdate %v\n", rowsAffected)
+
+	return rowsAffected
+}

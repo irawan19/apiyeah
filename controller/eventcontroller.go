@@ -110,7 +110,7 @@ func CekTicket(w http.ResponseWriter, r *http.Request) {
 	cekTickets, err := models.AmbilSatuTicket(bookingcode)
 
 	if err != nil {
-		log.Fatalf("Tidak bisa mengambil data event. %v", err)
+		log.Fatalf("Tidak bisa mengambil data ticket. %v", err)
 	}
 
 	var response ResponseCekTicket
@@ -127,7 +127,7 @@ func CekTicket(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param registrasi body object true "registrasi"
-// @Success 200 {string} AmbilDetailEvent
+// @Success 200 {string} RegistrasiEventDetail
 // @Router /event/registrasi [post]
 func Registrasi(w http.ResponseWriter, r *http.Request) {
 	var regjson models.RegistrasiEventJson
@@ -142,13 +142,28 @@ func Registrasi(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Tidak bisa mendecode dari request body. %v", convertjson)
 	}
 
+	generateNoRegistrasi := helper.RandStringBytes(6)
+
+	var PembayaransId int64
+	var StatusPembayaransId int64
+	var BuktiPembayaranRegistrasiEvents string
+	if regjson.Harga_registrasi_events == 0 {
+		PembayaransId = 1
+		StatusPembayaransId = 2
+		BuktiPembayaranRegistrasiEvents = generateNoRegistrasi
+	} else {
+		PembayaransId = 1
+		StatusPembayaransId = 1
+		BuktiPembayaranRegistrasiEvents = ""
+	}
+
 	regdata := models.RegistrasiEvent{
 		Tickets_id:                         regjson.Tickets_id,
-		Pembayarans_id:                     regjson.Pembayarans_id,
-		Status_pembayarans_id:              regjson.Status_pembayarans_id,
+		Pembayarans_id:                     PembayaransId,
+		Status_pembayarans_id:              StatusPembayaransId,
 		Jumlah_registrasi_events:           regjson.Jumlah_registrasi_events,
-		Bukti_pembayaran_registrasi_events: regjson.Bukti_pembayaran_registrasi_events,
-		No_registrasi_events:               helper.RandStringBytes(6),
+		Bukti_pembayaran_registrasi_events: BuktiPembayaranRegistrasiEvents,
+		No_registrasi_events:               generateNoRegistrasi,
 		Harga_registrasi_events:            regjson.Harga_registrasi_events,
 	}
 	IdRegistrasiEvent := models.TambahDataRegistrasiEvent(regdata)
@@ -174,6 +189,40 @@ func Registrasi(w http.ResponseWriter, r *http.Request) {
 	res := response{
 		Status:  "Sukses",
 		Message: "Data registrasi telah ditambahkan ",
+	}
+	json.NewEncoder(w).Encode(res)
+}
+
+// @Summary pembayaran registrasi
+// @Schemes
+// @Description pembayaran registrasi
+// @Tags Event
+// @Accept json
+// @Produce json
+// @Param booking_code query string true "booking code"
+// @Param id_pembayarans query string true "id pembayaran"
+// @Param id_status_pembayarans query string true "id status pembayaran"
+// @Success 200 {string} Pembayaran
+// @Router /event/registrasi/pembayaran [post]
+func Pembayaran(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	bookingcode := r.FormValue("booking_code")
+	idpembayaran, errpembayaran := strconv.Atoi(r.FormValue("id_pembayarans"))
+	if errpembayaran != nil {
+		log.Fatalf("Tidak bisa mengubah dari string ke int.  %v", errpembayaran)
+	}
+	idstatuspembayaran, errstatuspembayaran := strconv.Atoi(r.FormValue("id_status_pembayarans"))
+	if errstatuspembayaran != nil {
+		log.Fatalf("Tidak bisa mengubah dari string ke int.  %v", errstatuspembayaran)
+	}
+
+	models.UpdatePembayaran(string(bookingcode), int64(idpembayaran), int64(idstatuspembayaran))
+
+	res := response{
+		Status:  "Sukses",
+		Message: "Data pembayaran registrasi telah diperbarui ",
 	}
 	json.NewEncoder(w).Encode(res)
 }

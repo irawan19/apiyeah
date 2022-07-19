@@ -274,6 +274,52 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/event/registrasi/pembayaran": {
+            "post": {
+                "description": "pembayaran registrasi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Event"
+                ],
+                "summary": "pembayaran registrasi",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "booking code",
+                        "name": "booking_code",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id pembayaran",
+                        "name": "id_pembayarans",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "id status pembayaran",
+                        "name": "id_status_pembayarans",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     }
 }`
@@ -281,7 +327,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:9100",
+	Host:             "api.yeah.biz.id",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "API Yeah",

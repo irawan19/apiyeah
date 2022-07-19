@@ -1,5 +1,5 @@
 basePath: /api/v1
-host: localhost:9100
+host: api.yeah.biz.id
 info:
   contact: {}
   description: API for YEAH Apps
@@ -173,6 +173,37 @@ paths:
           schema:
             type: string
       summary: registrasi
+      tags:
+      - Event
+  /event/registrasi/pembayaran:
+    post:
+      consumes:
+      - application/json
+      description: pembayaran registrasi
+      parameters:
+      - description: booking code
+        in: query
+        name: booking_code
+        required: true
+        type: string
+      - description: id pembayaran
+        in: query
+        name: id_pembayarans
+        required: true
+        type: string
+      - description: id status pembayaran
+        in: query
+        name: id_status_pembayarans
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: pembayaran registrasi
       tags:
       - Event
 swagger: "2.0"
