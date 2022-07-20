@@ -58,7 +58,7 @@ type EventDetail struct {
 	Mulai_registrasi_events   string          `json:"mulai_registrasi_events"`
 	Selesai_registrasi_events string          `json:"selesai_registrasi_events"`
 	Tickets                   json.RawMessage `json:"tickets_data"`
-	Promos                    json.RawMessage `json:"promos_data`
+	Promos                    json.RawMessage `json:"promos_data,omitempty"`
 }
 
 type RegistrasiEventJson struct {
@@ -181,7 +181,7 @@ func AmbilSatuEvent(id int64) (EventDetail, error) {
 							json_agg(t.*) as tickets_data,
 							(
 								SELECT
-									json_agg(p.*)
+									COALESCE(json_agg(p.*), '[]')
 								FROM master_promos p
 								WHERE p.events_id=e.id_events
 								OR p.events_id=0
