@@ -177,7 +177,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/event/cekticket/": {
+        "/event/cekticket": {
             "post": {
                 "description": "cek ticket",
                 "consumes": [
@@ -227,7 +227,7 @@ const docTemplate = `{
                         "type": "string",
                         "description": "id event",
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -327,7 +327,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "api.yeah.biz.id",
+	Host:             "localhost:9100",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "API Yeah",

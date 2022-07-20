@@ -7,7 +7,7 @@ require (
 	github.com/joho/godotenv v1.4.0
 	github.com/lib/pq v1.10.6
 	github.com/swaggo/http-swagger v1.3.0
-	github.com/swaggo/swag v1.8.3
+	github.com/swaggo/swag v1.8.4
 )
 
 require (
