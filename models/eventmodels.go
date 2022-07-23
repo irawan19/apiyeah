@@ -242,6 +242,7 @@ func AmbilSatuTicket(booking_code string) (CekTicket, error) {
 							jumlah_registrasi_events,
 							harga_registrasi_events,
 							total_harga_registrasi_events,
+							bukti_pembayaran_registrasi_events,
 							id_pembayarans,
 							nama_pembayarans,
 							id_status_pembayarans,
