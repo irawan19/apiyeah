@@ -1,5 +1,5 @@
 basePath: /api/v1
-host: api.yeah.biz.id
+host: localhost:9100
 info:
   contact: {}
   description: API for YEAH Apps
@@ -187,10 +187,10 @@ paths:
         required: true
         type: string
       - description: bukti pembayaran
-        in: query
+        in: formData
         name: bukti_pembayaran_registrasi_events
         required: true
-        type: string
+        type: file
       produces:
       - application/json
       responses:

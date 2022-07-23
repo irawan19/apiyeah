@@ -236,7 +236,7 @@ func Pembayaran(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param booking_code query string true "booking code"
-// @Param bukti_pembayaran_registrasi_events query string true "bukti pembayaran"
+// @Param bukti_pembayaran_registrasi_events formData file true "bukti pembayaran"
 // @Success 200 {string} BuktiPembayaran
 // @Router /event/registrasi/buktipembayaran [post]
 func BuktiPembayaran(w http.ResponseWriter, r *http.Request) {
