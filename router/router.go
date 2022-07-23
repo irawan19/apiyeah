@@ -28,6 +28,7 @@ func Router() *mux.Router {
 	router.HandleFunc("/api/v1/event/cekticket", controller.CekTicket).Methods("POST")
 	router.HandleFunc("/api/v1/event/registrasi", controller.Registrasi).Methods("POST")
 	router.HandleFunc("/api/v1/event/registrasi/pembayaran", controller.Pembayaran).Methods("POST")
+	router.HandleFunc("/api/v1/event/registrasi/buktipembayaran", controller.BuktiPembayaran).Methods("POST")
 	router.PathPrefix("/").Handler(httpSwagger.WrapHandler)
 
 	return router

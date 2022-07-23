@@ -2,8 +2,10 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"strconv"
+	"strings"
 
 	"log"
 	"net/http"
@@ -222,7 +224,58 @@ func Pembayaran(w http.ResponseWriter, r *http.Request) {
 
 	res := response{
 		Status:  "Sukses",
-		Message: "Data pembayaran registrasi telah diperbarui ",
+		Message: "Data pembayaran registrasi telah diperbarui",
+	}
+	json.NewEncoder(w).Encode(res)
+}
+
+// @Summary bukti pembayaran registrasi
+// @Schemes
+// @Description bukti pembayaran registrasi
+// @Tags Event
+// @Accept json
+// @Produce json
+// @Param booking_code query string true "booking code"
+// @Param bukti_pembayaran_registrasi_events query string true "bukti pembayaran"
+// @Success 200 {string} BuktiPembayaran
+// @Router /event/registrasi/buktipembayaran [post]
+func BuktiPembayaran(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	r.ParseMultipartForm(10 << 20)
+	file, handler, err := r.FormFile("bukti_pembayaran_registrasi_events")
+	if err != nil {
+		fmt.Println("Error mendapatkan file")
+		fmt.Println(err)
+		return
+	}
+	defer file.Close()
+	fmt.Printf("Uploaded File: %+v\n", handler.Filename)
+	fmt.Printf("File Size: %+v\n", handler.Size)
+	fmt.Printf("MIME Header: %+v\n", handler.Header)
+
+	bookingcode := r.FormValue("booking_code")
+
+	tempFile, err := ioutil.TempFile("/var/www/html/dashboard/public/uploads/bukti_pembayaran/", "apiupload-*.png")
+	tempFile.Chmod(0777)
+	buktipembayaran := strings.ReplaceAll(tempFile.Name(), "/var/www/html/yeah/", "")
+	models.UpdateBuktiPembayaran(string(bookingcode), string(buktipembayaran))
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer tempFile.Close()
+
+	fileBytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		fmt.Println(err)
+	}
+	tempFile.Write(fileBytes)
+
+	res := response{
+		Status:  "Sukses",
+		Message: "Bukti pembayaran berhasil diupload",
 	}
 	json.NewEncoder(w).Encode(res)
 }

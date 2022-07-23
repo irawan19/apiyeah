@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:9100",
+    "host": "api.yeah.biz.id",
     "basePath": "/api/v1",
     "paths": {
         "/data/jeniskelamin": {
@@ -256,6 +256,45 @@
                         "schema": {
                             "type": "object"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/event/registrasi/buktipembayaran": {
+            "post": {
+                "description": "bukti pembayaran registrasi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Event"
+                ],
+                "summary": "bukti pembayaran registrasi",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "booking code",
+                        "name": "booking_code",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "bukti pembayaran",
+                        "name": "bukti_pembayaran_registrasi_events",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
