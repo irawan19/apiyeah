@@ -22,6 +22,12 @@ type response struct {
 	Message string `json:"message,omitempty"`
 }
 
+type responseRegistrasi struct {
+	Status      string `json:"status,omitempty"`
+	Message     string `json:"message,omitempty"`
+	BookingCode string `json:"booking_code,omitempty"`
+}
+
 type ResponseSemuaEvent struct {
 	Status  string         `json:"status"`
 	Message []models.Event `json:"message"`
@@ -188,9 +194,10 @@ func Registrasi(w http.ResponseWriter, r *http.Request) {
 	}
 	models.KalkulasiKuotaTicket(regjson.Tickets_id, ticketdata)
 
-	res := response{
-		Status:  "Sukses",
-		Message: "Data registrasi telah ditambahkan ",
+	res := responseRegistrasi{
+		Status:      "Sukses",
+		Message:     "Data registrasi telah ditambahkan ",
+		BookingCode: generateNoRegistrasi,
 	}
 	json.NewEncoder(w).Encode(res)
 }
