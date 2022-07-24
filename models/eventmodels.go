@@ -39,7 +39,7 @@ type CekTicket struct {
 	Tanggal_registrasi_events          string          `json:"tanggal_registrasi_events"`
 	Jumlah_registrasi_events           string          `json:"jumlah_registrasi_events"`
 	Harga_regisrasi_events             string          `json:"harga_registrasi_events"`
-	Total_harga_registrasi_events      string          `json:"total_harga_pembayarans"`
+	Total_harga_registrasi_events      string          `json:"total_harga_registrasi_events"`
 	Bukti_pembayaran_registrasi_events string          `json:"bukti_pembayaran_registrasi_events"`
 	Id_pembayarans                     string          `json:"id_pembayarans"`
 	Nama_pembayarans                   string          `json:"nama_pembayarans"`
@@ -258,7 +258,19 @@ func AmbilSatuTicket(booking_code string) (CekTicket, error) {
 							nama_status_pembayarans,
 							id_tipe_pembayarans,
 							nama_tipe_pembayarans,
-							json_agg(red.*) as registrasi_data
+							json_agg(
+								json_build_object(
+									'id_registrasi_event_details', red.id_registrasi_event_details,
+									'nama_registrasi_event_details', red.nama_registrasi_event_details,
+									'email_registrasi_event_details', red.email_registrasi_event_details,
+									'telepon_registrasi_event_details', red.telepon_registrasi_event_details,
+									'tanggal_lahir_registrasi_event_details', red.tanggal_lahir_registrasi_event_details,
+									'id_jenis_kelamins', jk.id_jenis_kelamins,
+									'nama_jenis_kelamins', jk.nama_jenis_kelamins,
+									'created_at', red.created_at,
+									'updated_at', red.updated_at
+								)
+							) AS registrasi_data
 						FROM registrasi_events re
 						JOIN registrasi_event_details red ON red.registrasi_events_id=re.id_registrasi_events
 						JOIN master_tickets t ON t.id_tickets=re.tickets_id
@@ -268,7 +280,7 @@ func AmbilSatuTicket(booking_code string) (CekTicket, error) {
 						JOIN master_tipe_pembayarans tp ON tp.id_tipe_pembayarans=p.tipe_pembayarans_id
 						JOIN master_jenis_kelamins jk ON jk.id_jenis_kelamins=red.jenis_kelamins_id
 						WHERE re.no_registrasi_events=$1
-						GROUP BY re.id_registrasi_events, e.id_events, t.id_tickets, p.id_pembayarans, sp.id_status_pembayarans, tp.id_tipe_pembayarans, jk.id_jenis_kelamins`
+						GROUP BY re.id_registrasi_events, e.id_events, t.id_tickets, p.id_pembayarans, sp.id_status_pembayarans, tp.id_tipe_pembayarans`
 
 	row := db.QueryRow(sqlStatement, booking_code)
 
@@ -286,8 +298,8 @@ func AmbilSatuTicket(booking_code string) (CekTicket, error) {
 		&cekTicket.Tanggal_registrasi_events,
 		&cekTicket.Jumlah_registrasi_events,
 		&cekTicket.Harga_regisrasi_events,
-		&cekTicket.Bukti_pembayaran_registrasi_events,
 		&cekTicket.Total_harga_registrasi_events,
+		&cekTicket.Bukti_pembayaran_registrasi_events,
 		&cekTicket.Id_pembayarans,
 		&cekTicket.Nama_pembayarans,
 		&cekTicket.No_rekening_pembayarans,
