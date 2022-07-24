@@ -42,6 +42,9 @@ type CekTicket struct {
 	Total_harga_registrasi_events string          `json:"total_harga_pembayarans"`
 	Id_pembayarans                string          `json:"id_pembayarans"`
 	Nama_pembayarans              string          `json:"nama_pembayarans"`
+	No_rekening_pembayarans       string          `json:"no_rekening_pembayarans"`
+	Nama_rekening_pembayarans     string          `json:"nama_rekening_pembayarans"`
+	Logo_rekening_pembayarans     string          `json:"logo_rekening_pembayarans"`
 	Id_status_pembayarans         string          `json:"id_status_pembayarans"`
 	Nama_status_pembayarans       string          `json:"nama_status_pembayarans"`
 	Registrasi_data               json.RawMessage `json:"registrasi_data"`
@@ -245,6 +248,9 @@ func AmbilSatuTicket(booking_code string) (CekTicket, error) {
 							bukti_pembayaran_registrasi_events,
 							id_pembayarans,
 							nama_pembayarans,
+							no_rekening_pembayarans,
+							nama_rekening_pembayarans,
+							logo_rekening_pembayarans,
 							id_status_pembayarans,
 							nama_status_pembayarans,
 							json_agg(red.*) as registrasi_data
@@ -277,6 +283,9 @@ func AmbilSatuTicket(booking_code string) (CekTicket, error) {
 		&cekTicket.Total_harga_registrasi_events,
 		&cekTicket.Id_pembayarans,
 		&cekTicket.Nama_pembayarans,
+		&cekTicket.No_rekening_pembayarans,
+		&cekTicket.Nama_rekening_pembayarans,
+		&cekTicket.Logo_rekening_pembayarans,
 		&cekTicket.Id_status_pembayarans,
 		&cekTicket.Nama_status_pembayarans,
 		&cekTicket.Registrasi_data,
