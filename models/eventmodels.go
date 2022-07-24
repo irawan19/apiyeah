@@ -308,10 +308,11 @@ func TambahDataRegistrasiEvent(registrasievent RegistrasiEvent) int64 {
 										bukti_pembayaran_registrasi_events,
 										no_registrasi_events,
 										harga_registrasi_events,
+										status_kedatangan_registrasi_events,
 										created_at,
 										updated_at
 									)
-									VALUES ($1,$2,$3,$4,$5,$6,$7,$8, NOW(), NOW()) RETURNING id_registrasi_events`
+									VALUES ($1,$2,$3,$4,$5,$6,$7,$8, false, NOW(), NOW()) RETURNING id_registrasi_events`
 
 	var idregistrasievent int64
 	errRegistrasiEvent := db.QueryRow(sqlStatementRegistrasiEvent,
