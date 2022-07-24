@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 
@@ -264,7 +265,21 @@ func BuktiPembayaran(w http.ResponseWriter, r *http.Request) {
 
 	bookingcode := r.FormValue("booking_code")
 
-	tempFile, err := ioutil.TempFile("/var/www/html/dashboard/public/uploads/bukti_pembayaran/", "apiupload-*.png")
+	buktiPembayaranLama, err := models.CekBuktiPembayaranLama(bookingcode)
+	if err != nil {
+		log.Fatalf("Tidak bisa mengambil data bukti pembayaran. %v", err)
+	}
+	if _, errexists := os.Stat(buktiPembayaranLama); err != nil {
+		fmt.Println(errexists)
+	} else {
+		pathLama := "/var/www/html/yeah/" + buktiPembayaranLama
+		errLama := os.Remove(pathLama)
+		if errLama != nil {
+			fmt.Println(errLama)
+		}
+	}
+
+	tempFile, err := ioutil.TempFile("/var/www/html/yeah/public/uploads/bukti_pembayaran/", "apiupload-*.png")
 	tempFile.Chmod(0777)
 	buktipembayaran := strings.ReplaceAll(tempFile.Name(), "/var/www/html/yeah/", "")
 	models.UpdateBuktiPembayaran(string(bookingcode), string(buktipembayaran))

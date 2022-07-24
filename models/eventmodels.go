@@ -475,3 +475,29 @@ func UpdateKedatangan(Booking_code string) int64 {
 
 	return rowsAffected
 }
+
+func CekBuktiPembayaranLama(Booking_code string) (string, error) {
+	db := config.CreateConnection()
+	defer db.Close()
+
+	var buktipembayarandata string
+
+	sqlStatement := `SELECT
+							bukti_pembayaran_registrasi_events
+						FROM registrasi_events
+						WHERE no_registrasi_events = $1`
+	row := db.QueryRow(sqlStatement, Booking_code)
+	err := row.Scan(&buktipembayarandata)
+
+	switch err {
+	case sql.ErrNoRows:
+		fmt.Println("Tidak ada data yang dicari!")
+		return buktipembayarandata, nil
+	case nil:
+		return buktipembayarandata, nil
+	default:
+		log.Fatalf("tidak bisa mengambil data. %v", err)
+	}
+
+	return buktipembayarandata, err
+}
