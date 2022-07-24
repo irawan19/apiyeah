@@ -272,16 +272,16 @@ func BuktiPembayaran(w http.ResponseWriter, r *http.Request) {
 	if _, errexists := os.Stat(buktiPembayaranLama); err != nil {
 		fmt.Println(errexists)
 	} else {
-		pathLama := "/var/www/html/yeah/" + buktiPembayaranLama
+		pathLama := "/var/www/html/dashboard/" + buktiPembayaranLama
 		errLama := os.Remove(pathLama)
 		if errLama != nil {
 			fmt.Println(errLama)
 		}
 	}
 
-	tempFile, err := ioutil.TempFile("/var/www/html/yeah/public/uploads/bukti_pembayaran/", "apiupload-*.png")
+	tempFile, err := ioutil.TempFile("/var/www/html/dashboard/public/uploads/bukti_pembayaran/", "apiupload-*.png")
 	tempFile.Chmod(0777)
-	buktipembayaran := strings.ReplaceAll(tempFile.Name(), "/var/www/html/yeah/", "")
+	buktipembayaran := strings.ReplaceAll(tempFile.Name(), "/var/www/html/dashboard/", "")
 	models.UpdateBuktiPembayaran(string(bookingcode), string(buktipembayaran))
 
 	if err != nil {
