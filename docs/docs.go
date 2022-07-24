@@ -154,6 +154,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/data/tipepembayaran": {
+            "get": {
+                "description": "ambil tipe pembayaran",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data"
+                ],
+                "summary": "ambil tipe pembayaran",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/event": {
             "get": {
                 "description": "ambil semua event",

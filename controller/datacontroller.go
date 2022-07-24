@@ -26,6 +26,11 @@ type ResponsePembayaran struct {
 	Message []models.Pembayaran `json:"message"`
 }
 
+type ResponseTipePembayaran struct {
+	Status  string                  `json:"status"`
+	Message []models.TipePembayaran `json:"message"`
+}
+
 type ResponseStatusPembayaran struct {
 	Status  string                    `json:"status"`
 	Message []models.StatusPembayaran `json:"message"`
@@ -109,6 +114,30 @@ func AmbilPembayaran(w http.ResponseWriter, r *http.Request) {
 	var response ResponsePembayaran
 	response.Status = "Sukses"
 	response.Message = Pembayaran
+
+	json.NewEncoder(w).Encode(response)
+}
+
+// @Summary ambil tipe pembayaran
+// @Schemes
+// @Description ambil tipe pembayaran
+// @Tags Data
+// @Accept json
+// @Produce json
+// @Success 200 {string} AmbilTipePembayaran
+// @Router /data/tipepembayaran [get]
+func AmbilTipePembayaran(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	TipePembayaran, err := models.AmbilSemuaTipePembayaran()
+
+	if err != nil {
+		log.Fatalf("Tidak bisa mengambil data. %v", err)
+	}
+
+	var response ResponseTipePembayaran
+	response.Status = "Sukses"
+	response.Message = TipePembayaran
 
 	json.NewEncoder(w).Encode(response)
 }

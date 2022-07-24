@@ -96,6 +96,21 @@ paths:
       summary: ambil status pembayaran
       tags:
       - Data
+  /data/tipepembayaran:
+    get:
+      consumes:
+      - application/json
+      description: ambil tipe pembayaran
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ambil tipe pembayaran
+      tags:
+      - Data
   /event:
     get:
       consumes:

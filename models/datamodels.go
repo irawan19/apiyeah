@@ -25,8 +25,18 @@ type JenisKelamin struct {
 }
 
 type Pembayaran struct {
-	Id_pembayarans   int64  `json:"id_pembayarans"`
-	Nama_pembayarans string `json:"nama_pembayarans"`
+	Id_tipe_pembayarans       int64  `json:"id_tipe_pembayarans"`
+	Nama_tipe_pembayarans     string `json:"nama_tipe_pembayarans"`
+	Id_pembayarans            int64  `json:"id_pembayarans"`
+	Nama_pembayarans          string `json:"nama_pembayarans"`
+	Nama_rekening_pembayarans string `json:"nama_rekening_pembayarans"`
+	No_rekening_pembayarans   string `json:"no_rekening_pembayarans"`
+	Logo_Pembayarans          string `json:"logo_pembayarans"`
+}
+
+type TipePembayaran struct {
+	Id_tipe_pembayarans   int64  `json:"id_tipe_pembayarans"`
+	Nama_tipe_pembayarans string `json:"nama_tipe_pembayarans"`
 }
 
 type StatusPembayaran struct {
@@ -134,9 +144,16 @@ func AmbilSemuaPembayaran() ([]Pembayaran, error) {
 	var pembayarans []Pembayaran
 
 	sqlStatement := `SELECT
+						id_tipe_pembayarans,
+						nama_tipe_pembayarans,
 						id_pembayarans,
-						nama_pembayarans
-					FROM master_pembayarans`
+						nama_pembayarans,
+						nama_rekening_pembayarans,
+						no_rekening_pembayarans,
+						logo_pembayarans,
+					FROM master_pembayarans
+					JOIN master_tipe_pembayarans ON master_tipe_pembayarans.id_tipe_pembayarans=master_pembayarans.tipe_pembayarans_id
+					WHERE status_hapus_pembayarans=0`
 
 	rows, err := db.Query(sqlStatement)
 
@@ -149,8 +166,13 @@ func AmbilSemuaPembayaran() ([]Pembayaran, error) {
 	for rows.Next() {
 		var pembayaran Pembayaran
 
-		err = rows.Scan(&pembayaran.Id_pembayarans,
+		err = rows.Scan(&pembayaran.Id_tipe_pembayarans,
+			&pembayaran.Nama_tipe_pembayarans,
+			&pembayaran.Id_pembayarans,
 			&pembayaran.Nama_pembayarans,
+			&pembayaran.Nama_rekening_pembayarans,
+			&pembayaran.No_rekening_pembayarans,
+			&pembayaran.Logo_Pembayarans,
 		)
 
 		if err != nil {
@@ -161,6 +183,43 @@ func AmbilSemuaPembayaran() ([]Pembayaran, error) {
 	}
 
 	return pembayarans, err
+}
+
+func AmbilSemuaTipePembayaran() ([]TipePembayaran, error) {
+	db := config.CreateConnection()
+
+	defer db.Close()
+
+	var tipepembayarans []TipePembayaran
+
+	sqlStatement := `SELECT
+						id_tipe_pembayarans,
+						nama_tipe_pembayarans
+					FROM master_tipe_pembayarans`
+
+	rows, err := db.Query(sqlStatement)
+
+	if err != nil {
+		log.Fatalf("tidak bisa mengeksekusi query. %v", err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var tipepembayaran TipePembayaran
+
+		err = rows.Scan(&tipepembayaran.Id_tipe_pembayarans,
+			&tipepembayaran.Nama_tipe_pembayarans,
+		)
+
+		if err != nil {
+			log.Fatalf("tidak bisa mengambil data. %v", err)
+		}
+
+		tipepembayarans = append(tipepembayarans, tipepembayaran)
+	}
+
+	return tipepembayarans, err
 }
 
 func AmbilSemuaStatusPembayaran() ([]StatusPembayaran, error) {
