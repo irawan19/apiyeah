@@ -359,6 +359,45 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/event/verifikasikedatangan": {
+            "post": {
+                "description": "verifikasi kedatangan",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Event"
+                ],
+                "summary": "verifikasi kedatangan",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "booking code",
+                        "name": "booking_code",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "kode scanner event",
+                        "name": "kode_scanner_events",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     }
 }`
@@ -366,7 +405,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:9100",
+	Host:             "api.yeah.biz.id",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "API Yeah",

@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:9100",
+    "host": "api.yeah.biz.id",
     "basePath": "/api/v1",
     "paths": {
         "/data/jeniskelamin": {
@@ -339,6 +339,45 @@
                         "type": "string",
                         "description": "id status pembayaran",
                         "name": "id_status_pembayarans",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/event/verifikasikedatangan": {
+            "post": {
+                "description": "verifikasi kedatangan",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Event"
+                ],
+                "summary": "verifikasi kedatangan",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "booking code",
+                        "name": "booking_code",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "kode scanner event",
+                        "name": "kode_scanner_events",
                         "in": "query",
                         "required": true
                     }
