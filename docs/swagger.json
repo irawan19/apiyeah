@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "API for YEAH Apps",
+        "description": "API Using Golang",
         "title": "API Yeah",
         "contact": {},
         "version": "1.0"

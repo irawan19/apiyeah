@@ -12,7 +12,7 @@ const ()
 
 // @title API Yeah
 // @version 1.0
-// @description API for YEAH Apps
+// @description API Using Golang
 
 // @host api.yeah.biz.id
 // @BasePath /api/v1

@@ -2,7 +2,7 @@ basePath: /api/v1
 host: api.yeah.biz.id
 info:
   contact: {}
-  description: API for YEAH Apps
+  description: API Using Golang
   title: API Yeah
   version: "1.0"
 paths:

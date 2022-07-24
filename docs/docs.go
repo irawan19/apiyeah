@@ -409,7 +409,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "API Yeah",
-	Description:      "API for YEAH Apps",
+	Description:      "API Using Golang",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }
