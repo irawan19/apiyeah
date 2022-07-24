@@ -153,7 +153,7 @@ func AmbilSemuaPembayaran() ([]Pembayaran, error) {
 						logo_pembayarans
 					FROM master_pembayarans
 					JOIN master_tipe_pembayarans ON master_tipe_pembayarans.id_tipe_pembayarans=master_pembayarans.tipe_pembayarans_id
-					WHERE status_hapus_pembayarans=0`
+					WHERE status_hapus_pembayarans=false`
 
 	rows, err := db.Query(sqlStatement)
 
