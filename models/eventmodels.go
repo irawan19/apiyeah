@@ -25,29 +25,32 @@ type Event struct {
 }
 
 type CekTicket struct {
-	Id_events                     int64           `json:"id_events"`
-	Tanggal_events                string          `json:"tanggal_events"`
-	Gambar_events                 string          `json:"gambar_events"`
-	Nama_events                   string          `json:"nama_events"`
-	Deskripsi_events              string          `json:"deskripsi_events"`
-	Disclaimer_events             string          `json:"disclaimer_events"`
-	Lokasi_events                 string          `json:"lokasi_events"`
-	Id_tickets                    int64           `json:"id_tickets"`
-	Nama_tickets                  string          `json:"nama_tickets"`
-	Deskripsi_tickets             string          `json:"deskripsi_tickets"`
-	Keterangan_tickets            string          `json:"keterangan_tickets"`
-	Tanggal_registrasi_events     string          `json:"tanggal_registrasi_events"`
-	Jumlah_registrasi_events      string          `json:"jumlah_registrasi_events"`
-	Harga_regisrasi_events        string          `json:"harga_registrasi_events"`
-	Total_harga_registrasi_events string          `json:"total_harga_pembayarans"`
-	Id_pembayarans                string          `json:"id_pembayarans"`
-	Nama_pembayarans              string          `json:"nama_pembayarans"`
-	No_rekening_pembayarans       string          `json:"no_rekening_pembayarans"`
-	Nama_rekening_pembayarans     string          `json:"nama_rekening_pembayarans"`
-	Logo_pembayarans              string          `json:"logo_pembayarans"`
-	Id_status_pembayarans         string          `json:"id_status_pembayarans"`
-	Nama_status_pembayarans       string          `json:"nama_status_pembayarans"`
-	Registrasi_data               json.RawMessage `json:"registrasi_data"`
+	Id_events                          int64           `json:"id_events"`
+	Tanggal_events                     string          `json:"tanggal_events"`
+	Gambar_events                      string          `json:"gambar_events"`
+	Nama_events                        string          `json:"nama_events"`
+	Deskripsi_events                   string          `json:"deskripsi_events"`
+	Disclaimer_events                  string          `json:"disclaimer_events"`
+	Lokasi_events                      string          `json:"lokasi_events"`
+	Id_tickets                         int64           `json:"id_tickets"`
+	Nama_tickets                       string          `json:"nama_tickets"`
+	Deskripsi_tickets                  string          `json:"deskripsi_tickets"`
+	Keterangan_tickets                 string          `json:"keterangan_tickets"`
+	Tanggal_registrasi_events          string          `json:"tanggal_registrasi_events"`
+	Jumlah_registrasi_events           string          `json:"jumlah_registrasi_events"`
+	Harga_regisrasi_events             string          `json:"harga_registrasi_events"`
+	Total_harga_registrasi_events      string          `json:"total_harga_pembayarans"`
+	Bukti_pembayaran_registrasi_events string          `json:"bukti_pembayaran_registrasi_events"`
+	Id_pembayarans                     string          `json:"id_pembayarans"`
+	Nama_pembayarans                   string          `json:"nama_pembayarans"`
+	No_rekening_pembayarans            string          `json:"no_rekening_pembayarans"`
+	Nama_rekening_pembayarans          string          `json:"nama_rekening_pembayarans"`
+	Logo_pembayarans                   string          `json:"logo_pembayarans"`
+	Id_status_pembayarans              string          `json:"id_status_pembayarans"`
+	Nama_status_pembayarans            string          `json:"nama_status_pembayarans"`
+	Id_tipe_pembayarans                int64           `json:"id_tipe_pembayarans"`
+	Nama_tipe_pembayarans              string          `json:"nama_tipe_pembayarans"`
+	Registrasi_data                    json.RawMessage `json:"registrasi_data"`
 }
 
 type EventDetail struct {
@@ -245,14 +248,16 @@ func AmbilSatuTicket(booking_code string) (CekTicket, error) {
 							jumlah_registrasi_events,
 							harga_registrasi_events,
 							total_harga_registrasi_events,
-							bukti_pembayaran_registrasi_events,
+							coalesce(bukti_pembayaran_registrasi_events, ''),
 							id_pembayarans,
 							nama_pembayarans,
-							no_rekening_pembayarans,
-							nama_rekening_pembayarans,
-							logo_pembayarans,
+							coalesce(no_rekening_pembayarans, ''),
+							coalesce(nama_rekening_pembayarans, ''),
+							coalesce(logo_pembayarans, ''),
 							id_status_pembayarans,
 							nama_status_pembayarans,
+							id_tipe_pembayarans,
+							nama_tipe_pembayarans,
 							json_agg(red.*) as registrasi_data
 						FROM registrasi_events re
 						JOIN registrasi_event_details red ON red.registrasi_events_id=re.id_registrasi_events
@@ -260,9 +265,10 @@ func AmbilSatuTicket(booking_code string) (CekTicket, error) {
 						JOIN master_events e ON e.id_events=t.events_id
 						JOIN master_pembayarans p ON p.id_pembayarans=re.pembayarans_id
 						JOIN master_status_pembayarans sp ON sp.id_status_pembayarans=re.status_pembayarans_id
+						JOIN master_tipe_pembayarans tp ON tp.id_tipe_pembayarans=p.tipe_pembayarans_id
 						JOIN master_jenis_kelamins jk ON jk.id_jenis_kelamins=red.jenis_kelamins_id
 						WHERE re.no_registrasi_events=$1
-						GROUP BY re.id_registrasi_events, e.id_events, t.id_tickets, p.id_pembayarans, sp.id_status_pembayarans, jk.id_jenis_kelamins`
+						GROUP BY re.id_registrasi_events, e.id_events, t.id_tickets, p.id_pembayarans, sp.id_status_pembayarans, tp.id_tipe_pembayarans, jk.id_jenis_kelamins`
 
 	row := db.QueryRow(sqlStatement, booking_code)
 
@@ -280,6 +286,7 @@ func AmbilSatuTicket(booking_code string) (CekTicket, error) {
 		&cekTicket.Tanggal_registrasi_events,
 		&cekTicket.Jumlah_registrasi_events,
 		&cekTicket.Harga_regisrasi_events,
+		&cekTicket.Bukti_pembayaran_registrasi_events,
 		&cekTicket.Total_harga_registrasi_events,
 		&cekTicket.Id_pembayarans,
 		&cekTicket.Nama_pembayarans,
@@ -288,6 +295,8 @@ func AmbilSatuTicket(booking_code string) (CekTicket, error) {
 		&cekTicket.Logo_pembayarans,
 		&cekTicket.Id_status_pembayarans,
 		&cekTicket.Nama_status_pembayarans,
+		&cekTicket.Id_tipe_pembayarans,
+		&cekTicket.Nama_tipe_pembayarans,
 		&cekTicket.Registrasi_data,
 	)
 
