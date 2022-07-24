@@ -430,3 +430,47 @@ func UpdateBuktiPembayaran(Booking_code string, Bukti_pembayaran string) int64 {
 
 	return rowsAffected
 }
+
+func CekKodeScanner(Booking_code string, Kode_scanner string) (int64, error) {
+	db := config.CreateConnection()
+	defer db.Close()
+
+	sqlStatement := `SELECT
+							COUNT(kode_scanner_events) as count_kodescanner
+						FROM registrasi_events re
+						JOIN master_tickets t ON t.id_tickets=re.tickets_id
+						JOIN master_events e ON e.id_events=t.events_id
+						WHERE no_registrasi_events = $1
+						AND e.kode_scanner_events=$2`
+	rows, err := db.Query(sqlStatement, Booking_code, Kode_scanner)
+	if err != nil {
+		return 0, err
+	} else {
+		var count_kodescanner int64
+		for rows.Next() {
+			rows.Scan(&count_kodescanner)
+		}
+		return count_kodescanner, nil
+	}
+}
+
+func UpdateKedatangan(Booking_code string) int64 {
+	db := config.CreateConnection()
+	defer db.Close()
+
+	sqlStatement := `UPDATE registrasi_events SET status_kedatangan_registrasi_events=true WHERE no_registrasi_events=$1`
+
+	res, err := db.Exec(sqlStatement, Booking_code)
+	if err != nil {
+		log.Fatalf("Tidak bisa mengeksekusi query. %v", err)
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		log.Fatalf("Error ketika mengecheck rows/data yang diupdate. %v", err)
+	}
+
+	fmt.Printf("Total rows/record yang diupdate %v\n", rowsAffected)
+
+	return rowsAffected
+}

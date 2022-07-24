@@ -279,3 +279,41 @@ func BuktiPembayaran(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(res)
 }
+
+// @Summary verifikasi kedatangan
+// @Schemes
+// @Description verifikasi kedatangan
+// @Tags Event
+// @Accept json
+// @Produce json
+// @Param booking_code query string true "booking code"
+// @Param kode_scanner_events query string true "kode scanner event"
+// @Success 200 {string} VerifikasiKedatangan
+// @Router /event/verifikasikedatangan [post]
+func VerifikasiKedatangan(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	bookingcode := r.FormValue("booking_code")
+	kodescanner := r.FormValue("kode_scanner_events")
+
+	cekkodescanner, err := models.CekKodeScanner(bookingcode, kodescanner)
+	if err != nil {
+		fmt.Printf("data: ", err)
+	} else {
+		if cekkodescanner != 0 {
+			models.UpdateKedatangan(string(bookingcode))
+			res := response{
+				Status:  "Error",
+				Message: "Kedatangan telah diverifikasi",
+			}
+			json.NewEncoder(w).Encode(res)
+		} else {
+			res := response{
+				Status:  "Error",
+				Message: "Data kode events salah!",
+			}
+			json.NewEncoder(w).Encode(res)
+		}
+	}
+}
