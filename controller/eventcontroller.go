@@ -306,7 +306,7 @@ func VerifikasiKedatangan(w http.ResponseWriter, r *http.Request) {
 
 	cekkodescanner, err := models.CekKodeScanner(bookingcode, kodescanner)
 	if err != nil {
-		fmt.Printf("data: ", err)
+		fmt.Println("data: ", err)
 	} else {
 		if cekkodescanner != 0 {
 			models.UpdateKedatangan(string(bookingcode))
