@@ -182,6 +182,7 @@ func Registrasi(w http.ResponseWriter, r *http.Request) {
 		Pembayarans_id:                     PembayaransId,
 		Status_pembayarans_id:              StatusPembayaransId,
 		Jumlah_registrasi_events:           regjson.Jumlah_registrasi_events,
+		Total_harga_registrasi_events:      regjson.Total_harga_registrasi_events,
 		Bukti_pembayaran_registrasi_events: BuktiPembayaranRegistrasiEvents,
 		No_registrasi_events:               generateNoRegistrasi,
 		Harga_registrasi_events:            regjson.Harga_registrasi_events,
