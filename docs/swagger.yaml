@@ -52,10 +52,16 @@ paths:
       tags:
       - Data
   /data/pembayaran:
-    get:
+    post:
       consumes:
       - application/json
       description: ambil pembayaran
+      parameters:
+      - description: id event
+        in: query
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:

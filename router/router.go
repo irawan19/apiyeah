@@ -18,7 +18,7 @@ func Router() *mux.Router {
 	router.HandleFunc("/api/v1/data/konfigurasiaplikasi", controller.AmbilKonfigurasiAplikasi).Methods("GET")
 	router.HandleFunc("/api/v1/data/jeniskelamin", controller.AmbilJenisKelamin).Methods("GET")
 	router.HandleFunc("/api/v1/data/tipepembayaran", controller.AmbilTipePembayaran).Methods("GET")
-	router.HandleFunc("/api/v1/data/pembayaran", controller.AmbilPembayaran).Methods("GET")
+	router.HandleFunc("/api/v1/data/pembayaran", controller.AmbilPembayaran).Methods("POST")
 	router.HandleFunc("/api/v1/data/statuspembayaran", controller.AmbilStatusPembayaran).Methods("GET")
 	router.HandleFunc("/api/v1/data/sosialmedia", controller.AmbilSosialMedia).Methods("GET")
 	router.HandleFunc("/api/v1/data/metatag", controller.AmbilMetaTag).Methods("GET")

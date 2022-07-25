@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"strconv"
 
 	"log"
 	"net/http"
@@ -100,12 +101,19 @@ func AmbilJenisKelamin(w http.ResponseWriter, r *http.Request) {
 // @Tags Data
 // @Accept json
 // @Produce json
+// @Param id query string true "id event"
 // @Success 200 {string} AmbilPembayaran
-// @Router /data/pembayaran [get]
+// @Router /data/pembayaran [post]
 func AmbilPembayaran(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	Pembayaran, err := models.AmbilSemuaPembayaran()
+
+	id, err := strconv.Atoi(r.FormValue("id"))
+
+	if err != nil {
+		log.Fatalf("Tidak bisa mengubah dari string ke int.  %v", err)
+	}
+	Pembayaran, err := models.AmbilSemuaPembayaran(int64(id))
 
 	if err != nil {
 		log.Fatalf("Tidak bisa mengambil data. %v", err)

@@ -27,6 +27,8 @@ type JenisKelamin struct {
 type Pembayaran struct {
 	Id_tipe_pembayarans       int64  `json:"id_tipe_pembayarans"`
 	Nama_tipe_pembayarans     string `json:"nama_tipe_pembayarans"`
+	Id_events                 int64  `json:"id_events"`
+	Nama_events               string `json:"nama_events"`
 	Id_pembayarans            int64  `json:"id_pembayarans"`
 	Nama_pembayarans          string `json:"nama_pembayarans"`
 	Nama_rekening_pembayarans string `json:"nama_rekening_pembayarans"`
@@ -136,7 +138,7 @@ func AmbilSemuaJenisKelamin() ([]JenisKelamin, error) {
 	return jeniskelamins, err
 }
 
-func AmbilSemuaPembayaran() ([]Pembayaran, error) {
+func AmbilSemuaPembayaran(id int64) ([]Pembayaran, error) {
 	db := config.CreateConnection()
 
 	defer db.Close()
@@ -146,6 +148,8 @@ func AmbilSemuaPembayaran() ([]Pembayaran, error) {
 	sqlStatement := `SELECT
 						id_tipe_pembayarans,
 						nama_tipe_pembayarans,
+						coalesce(id_events, 0),
+						coalesce(nama_events, ''),
 						id_pembayarans,
 						nama_pembayarans,
 						coalesce(nama_rekening_pembayarans, ''),
@@ -153,9 +157,13 @@ func AmbilSemuaPembayaran() ([]Pembayaran, error) {
 						coalesce(logo_pembayarans, '')
 					FROM master_pembayarans
 					JOIN master_tipe_pembayarans ON master_tipe_pembayarans.id_tipe_pembayarans=master_pembayarans.tipe_pembayarans_id
-					WHERE status_hapus_pembayarans=false`
+					LEFT JOIN master_events ON master_events.id_events=master_pembayarans.events_id
+					WHERE status_hapus_pembayarans=false
+					AND events_id=$1
+					OR events_id=0
+					AND status_hapus_pembayarans=false`
 
-	rows, err := db.Query(sqlStatement)
+	rows, err := db.Query(sqlStatement, id)
 
 	if err != nil {
 		log.Fatalf("tidak bisa mengeksekusi query. %v", err)
@@ -168,6 +176,8 @@ func AmbilSemuaPembayaran() ([]Pembayaran, error) {
 
 		err = rows.Scan(&pembayaran.Id_tipe_pembayarans,
 			&pembayaran.Nama_tipe_pembayarans,
+			&pembayaran.Id_events,
+			&pembayaran.Nama_events,
 			&pembayaran.Id_pembayarans,
 			&pembayaran.Nama_pembayarans,
 			&pembayaran.Nama_rekening_pembayarans,

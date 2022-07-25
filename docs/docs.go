@@ -86,7 +86,7 @@ const docTemplate = `{
             }
         },
         "/data/pembayaran": {
-            "get": {
+            "post": {
                 "description": "ambil pembayaran",
                 "consumes": [
                     "application/json"
@@ -98,6 +98,15 @@ const docTemplate = `{
                     "Data"
                 ],
                 "summary": "ambil pembayaran",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id event",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
