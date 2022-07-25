@@ -131,6 +131,7 @@ func AmbilSemuaEvent() ([]Event, error) {
 					JOIN master_tickets t ON t.events_id=e.id_events
 					WHERE e.status_hapus_events=false
 					AND e.tanggal_events > current_date
+					AND t.status_hapus_tickets=false
 					GROUP BY e.id_events
 					ORDER BY e.tanggal_events desc`
 
@@ -195,6 +196,7 @@ func AmbilSatuEvent(id int64) (EventDetail, error) {
 						FROM master_events e
 						JOIN master_tickets t ON t.events_id=e.id_events
 						WHERE e.status_hapus_events=false
+						AND t.status_hapus_tickets=false
 						AND e.id_events=$1
 						GROUP BY id_events`
 
