@@ -533,3 +533,23 @@ func CekBuktiPembayaranLama(Booking_code string) (string, error) {
 
 	return buktipembayarandata, err
 }
+
+func CekNoRegistrasi(No_registrasi string) (int64, error) {
+	db := config.CreateConnection()
+	defer db.Close()
+
+	sqlStatement := `SELECT
+							COUNT(no_registrasi_events) as count_no_registrasi
+						FROM registrasi_events re
+						WHERE no_registrasi_events = $1`
+	rows, err := db.Query(sqlStatement, No_registrasi)
+	if err != nil {
+		return 0, err
+	} else {
+		var countnoregistrasi int64
+		for rows.Next() {
+			rows.Scan(&countnoregistrasi)
+		}
+		return countnoregistrasi, nil
+	}
+}

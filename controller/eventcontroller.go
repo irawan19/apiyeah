@@ -151,7 +151,18 @@ func Registrasi(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Tidak bisa mendecode dari request body. %v", convertjson)
 	}
 
-	generateNoRegistrasi := helper.RandStringBytes(6)
+	NoRegistrasi := helper.RandStringBytes(6)
+	var generateNoRegistrasi = NoRegistrasi
+	ceknoregistrasi, err := models.CekNoRegistrasi(NoRegistrasi)
+	if err != nil {
+		fmt.Println("data: ", err)
+	} else {
+		if ceknoregistrasi != 0 {
+			generateNoRegistrasi = helper.RandStringBytes(6)
+		} else {
+			generateNoRegistrasi = NoRegistrasi
+		}
+	}
 
 	var PembayaransId int64
 	var StatusPembayaransId int64
