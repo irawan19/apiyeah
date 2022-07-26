@@ -64,7 +64,7 @@ type EventDetail struct {
 	Mulai_registrasi_events   string          `json:"mulai_registrasi_events"`
 	Selesai_registrasi_events string          `json:"selesai_registrasi_events"`
 	Tickets                   json.RawMessage `json:"tickets_data"`
-	Promos                    json.RawMessage `json:"promos_data,omitempty"`
+	Promos                    json.RawMessage `json:"promos_data"`
 }
 
 type RegistrasiEventJson struct {
