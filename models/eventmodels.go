@@ -382,7 +382,8 @@ func CekDataReggistrasiEventDetail(id int64, Email_registrasi string, Telepon_re
 						JOIN registrasi_events re ON re.id_registrasi_events=red.registrasi_events_id
 						WHERE re.tickets_id=$1
 						AND red.email_registrasi_event_details=$2
-						AND red.telepon_registrasi_event_details=$3`
+						OR red.telepon_registrasi_event_details=$3
+						AND re.tickets_id=$1`
 	rows, err := db.Query(sqlStatement,
 		id,
 		Email_registrasi,
