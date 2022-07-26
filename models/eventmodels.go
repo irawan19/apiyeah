@@ -487,6 +487,32 @@ func CekKodeScanner(Booking_code string, Kode_scanner string) (int64, error) {
 	}
 }
 
+func CekStatusKedatangan(Booking_code string) (bool, error) {
+	db := config.CreateConnection()
+	defer db.Close()
+
+	var statuskedatangandata bool
+
+	sqlStatement := `SELECT
+							status_kedatangan_registrasi_events
+						FROM registrasi_events
+						WHERE no_registrasi_events=$1`
+	row := db.QueryRow(sqlStatement, Booking_code)
+	err := row.Scan(&statuskedatangandata)
+
+	switch err {
+	case sql.ErrNoRows:
+		fmt.Println("Tidak ada data yang dicari!")
+		return statuskedatangandata, nil
+	case nil:
+		return statuskedatangandata, nil
+	default:
+		log.Fatalf("tidak bisa mengambil data. %v", err)
+	}
+
+	return statuskedatangandata, err
+}
+
 func UpdateKedatangan(Booking_code string) int64 {
 	db := config.CreateConnection()
 	defer db.Close()

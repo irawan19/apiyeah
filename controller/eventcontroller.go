@@ -336,12 +336,24 @@ func VerifikasiKedatangan(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("data: ", err)
 	} else {
 		if cekkodescanner != 0 {
-			models.UpdateKedatangan(string(bookingcode))
-			res := response{
-				Status:  "Error",
-				Message: "Kedatangan telah diverifikasi",
+			cekstatuskedatangan, err := models.CekStatusKedatangan(bookingcode)
+			if err != nil {
+				fmt.Println(err)
 			}
-			json.NewEncoder(w).Encode(res)
+			if cekstatuskedatangan != true {
+				models.UpdateKedatangan(string(bookingcode))
+				res := response{
+					Status:  "Success",
+					Message: "Kedatangan berhasil diverifikasi",
+				}
+				json.NewEncoder(w).Encode(res)
+			} else {
+				res := response{
+					Status:  "Error",
+					Message: "Kedatangan sudah diverifikasi",
+				}
+				json.NewEncoder(w).Encode(res)
+			}
 		} else {
 			res := response{
 				Status:  "Error",
