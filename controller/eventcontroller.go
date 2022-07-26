@@ -345,7 +345,7 @@ func VerifikasiKedatangan(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				fmt.Println(err)
 			}
-			if cekstatuskedatangan != true {
+			if !cekstatuskedatangan {
 				models.UpdateKedatangan(string(bookingcode))
 				res := response{
 					Status:  "Success",
