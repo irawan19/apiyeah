@@ -129,6 +129,49 @@ func CekTicket(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
+// @Summary cek registrasi
+// @Schemes
+// @Description cek registrasi
+// @Tags Event
+// @Accept json
+// @Produce json
+// @Param id_tickets query string true "id ticket"
+// @Param email_registrasi query string true "email"
+// @Param telepon_registrasi query string true "telepon"
+// @Success 200 {string} RegistrasiEventDetail
+// @Router /event/cekregistrasi [post]
+func CekRegistrasi(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	idTicket, erridticket := strconv.Atoi(r.FormValue("id_tickets"))
+	if erridticket != nil {
+		log.Fatalf("Tidak bisa mengubah dari string ke int.  %v", erridticket)
+	}
+	emailRegistrasi := r.FormValue("email_registrasi")
+	teleponRegistrasi := r.FormValue("telepon_registrasi")
+
+	cekregistrasidata, err := models.CekDataReggistrasiEventDetail(int64(idTicket), emailRegistrasi, teleponRegistrasi)
+	if err != nil {
+		fmt.Println("data: ", err)
+	} else {
+		if cekregistrasidata != 0 {
+			res := response{
+				Status:  "Error",
+				Message: "Data sudah registrasi",
+			}
+			json.NewEncoder(w).Encode(res)
+		} else {
+			res := response{
+				Status:  "Sukses",
+				Message: "Data berhasil registrasi",
+			}
+			json.NewEncoder(w).Encode(res)
+		}
+	}
+
+}
+
 // @Summary registrasi
 // @Schemes
 // @Description registrasi
@@ -348,7 +391,7 @@ func VerifikasiKedatangan(w http.ResponseWriter, r *http.Request) {
 			if !cekstatuskedatangan {
 				models.UpdateKedatangan(string(bookingcode))
 				res := response{
-					Status:  "Success",
+					Status:  "Sukses",
 					Message: "Kedatangan berhasil diverifikasi",
 				}
 				json.NewEncoder(w).Encode(res)

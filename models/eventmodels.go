@@ -372,6 +372,32 @@ func TambahDataRegistrasiEvent(registrasievent RegistrasiEvent) int64 {
 	return idregistrasievent
 }
 
+func CekDataReggistrasiEventDetail(id int64, Email_registrasi string, Telepon_registrasi string) (int64, error) {
+	db := config.CreateConnection()
+	defer db.Close()
+
+	sqlStatement := `SELECT
+							COUNT(id_registrasi_event_details) as count_data
+						FROM registrasi_event_details red
+						JOIN registrasi_events re ON re.id_registrasi_events=red.registrasi_events_id
+						WHERE re.tickets_id=$1
+						AND red.email_registrasi_event_details=$2
+						AND red.telepon_registrasi_event_details=$3`
+	rows, err := db.Query(sqlStatement,
+		id,
+		Email_registrasi,
+		Telepon_registrasi)
+	if err != nil {
+		return 0, err
+	} else {
+		var count_data int64
+		for rows.Next() {
+			rows.Scan(&count_data)
+		}
+		return count_data, nil
+	}
+}
+
 func TambahDataRegistrasiEventDetail(id int64, registrasieventdetail RegistrasiEventDetail) int64 {
 	db := config.CreateConnection()
 	defer db.Close()

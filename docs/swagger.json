@@ -202,6 +202,52 @@
                 }
             }
         },
+        "/event/cekregistrasi": {
+            "post": {
+                "description": "cek registrasi",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Event"
+                ],
+                "summary": "cek registrasi",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id ticket",
+                        "name": "id_tickets",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email_registrasi",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "telepon",
+                        "name": "telepon_registrasi",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/event/cekticket": {
             "post": {
                 "description": "cek ticket",

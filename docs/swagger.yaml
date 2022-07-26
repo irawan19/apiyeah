@@ -132,6 +132,37 @@ paths:
       summary: ambil semua event
       tags:
       - Event
+  /event/cekregistrasi:
+    post:
+      consumes:
+      - application/json
+      description: cek registrasi
+      parameters:
+      - description: id ticket
+        in: query
+        name: id_tickets
+        required: true
+        type: string
+      - description: email
+        in: query
+        name: email_registrasi
+        required: true
+        type: string
+      - description: telepon
+        in: query
+        name: telepon_registrasi
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: cek registrasi
+      tags:
+      - Event
   /event/cekticket:
     post:
       consumes:
