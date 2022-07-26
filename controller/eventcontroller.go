@@ -152,17 +152,6 @@ func Registrasi(w http.ResponseWriter, r *http.Request) {
 	}
 
 	NoRegistrasi := helper.RandStringBytes(6)
-	var generateNoRegistrasi = NoRegistrasi
-	ceknoregistrasi, err := models.CekNoRegistrasi(NoRegistrasi)
-	if err != nil {
-		fmt.Println("data: ", err)
-	} else {
-		if ceknoregistrasi != 0 {
-			generateNoRegistrasi = helper.RandStringBytes(6)
-		} else {
-			generateNoRegistrasi = NoRegistrasi
-		}
-	}
 
 	var PembayaransId int64
 	var StatusPembayaransId int64
@@ -170,7 +159,7 @@ func Registrasi(w http.ResponseWriter, r *http.Request) {
 	if regjson.Harga_registrasi_events == 0 {
 		PembayaransId = 1
 		StatusPembayaransId = 2
-		BuktiPembayaranRegistrasiEvents = generateNoRegistrasi
+		BuktiPembayaranRegistrasiEvents = NoRegistrasi
 	} else {
 		PembayaransId = 1
 		StatusPembayaransId = 1
@@ -184,7 +173,7 @@ func Registrasi(w http.ResponseWriter, r *http.Request) {
 		Jumlah_registrasi_events:           regjson.Jumlah_registrasi_events,
 		Total_harga_registrasi_events:      regjson.Total_harga_registrasi_events,
 		Bukti_pembayaran_registrasi_events: BuktiPembayaranRegistrasiEvents,
-		No_registrasi_events:               generateNoRegistrasi,
+		No_registrasi_events:               NoRegistrasi,
 		Harga_registrasi_events:            regjson.Harga_registrasi_events,
 	}
 	IdRegistrasiEvent := models.TambahDataRegistrasiEvent(regdata)
@@ -210,7 +199,7 @@ func Registrasi(w http.ResponseWriter, r *http.Request) {
 	res := responseRegistrasi{
 		Status:      "Sukses",
 		Message:     "Data registrasi telah ditambahkan ",
-		BookingCode: generateNoRegistrasi,
+		BookingCode: NoRegistrasi,
 	}
 	json.NewEncoder(w).Encode(res)
 }
