@@ -102,6 +102,12 @@ type KalkulasiTicketData struct {
 	Jumlah_registrasi int64 `json:"jumlah_registrasi"`
 }
 
+type JumlahRegistrasiData struct {
+	Tickets_id            int64 `json:"tickets_id"`
+	Status_pembayarans_id int64 `json:"status_pembayarans_id"`
+	Jumlah_registrasi     int64 `json:"jumlah_registrasi"`
+}
+
 func AmbilSemuaEvent() ([]Event, error) {
 	db := config.CreateConnection()
 
@@ -462,6 +468,39 @@ func UpdateBuktiPembayaran(Booking_code string, Bukti_pembayaran string) int64 {
 	fmt.Printf("Total rows/record yang diupdate %v\n", rowsAffected)
 
 	return rowsAffected
+}
+
+func AmbilJumlahRegistrasi(Booking_code string) (JumlahRegistrasiData, error) {
+	db := config.CreateConnection()
+	defer db.Close()
+
+	var jumlahRegistrasi JumlahRegistrasiData
+
+	sqlStatement := `SELECT
+							tickets_id,
+							jumlah_registrasi_events,
+							status_pembayarans_id
+						FROM registrasi_events
+						WHERE no_registrasi_events=$1`
+
+	row := db.QueryRow(sqlStatement, Booking_code)
+
+	err := row.Scan(&jumlahRegistrasi.Tickets_id,
+		&jumlahRegistrasi.Jumlah_registrasi,
+		&jumlahRegistrasi.Status_pembayarans_id,
+	)
+
+	switch err {
+	case sql.ErrNoRows:
+		fmt.Println("Tidak ada data yang dicari!")
+		return jumlahRegistrasi, nil
+	case nil:
+		return jumlahRegistrasi, nil
+	default:
+		log.Fatalf("tidak bisa mengambil data. %v", err)
+	}
+
+	return jumlahRegistrasi, err
 }
 
 func CekKodeScanner(Booking_code string, Kode_scanner string) (int64, error) {

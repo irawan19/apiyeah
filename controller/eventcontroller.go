@@ -240,6 +240,22 @@ func Pembayaran(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Tidak bisa mengubah dari string ke int.  %v", errstatuspembayaran)
 	}
 
+	if idstatuspembayaran == 3 {
+		ambiljumlahregistrasi, errjumlahregistrasi := models.AmbilJumlahRegistrasi(string(bookingcode))
+		if errjumlahregistrasi != nil {
+			log.Fatalf("Tidak bisa mengambil data jumlah registrasi. %v", errjumlahregistrasi)
+		}
+		idticket := ambiljumlahregistrasi.Tickets_id
+		ambilidstatuspembayaran := ambiljumlahregistrasi.Status_pembayarans_id
+		jumlahregistrasi := ambiljumlahregistrasi.Jumlah_registrasi
+
+		if ambilidstatuspembayaran != 3 {
+			ticketdata := models.KalkulasiTicketData{
+				Jumlah_registrasi: -jumlahregistrasi,
+			}
+			models.KalkulasiKuotaTicket(idticket, ticketdata)
+		}
+	}
 	models.UpdatePembayaran(string(bookingcode), int64(idpembayaran), int64(idstatuspembayaran))
 
 	res := response{
